@@ -1,4 +1,4 @@
-import restclient
+import apiclient
 
 url = 'https://api.coinmarketcap.com/v1/'
 endpoints = ['ticker','global']
@@ -7,7 +7,7 @@ class api():
 
     @staticmethod
     def call_endpoint(endpoint):
-        return restclient.basic(url).get(endpoint)
+        return apiclient.basic(url).get(endpoint)
 
     @staticmethod
     def ticker():

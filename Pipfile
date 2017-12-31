@@ -9,6 +9,8 @@ name = "pypi"
 
 requests = "*"
 pymongo = "*"
+redis = "*"
+flask = "*"
 
 
 [dev-packages]
