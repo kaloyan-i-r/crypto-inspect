@@ -11,7 +11,8 @@ def hello_world():
 
 @app.route('/tickers')
 def tickers():
-    return jsonify(crud.read_one('cms_tickers','latest'))
+    tickers = crud.read_one('cmc_ticker','latest')
+    return jsonify(tickers['data'])
 
 
 if __name__ == '__main__':
