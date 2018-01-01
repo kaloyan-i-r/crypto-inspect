@@ -1,10 +1,12 @@
 version: '3'
 services:
-  web:
-    build: .
+  # web:
+  #   build: .
+  #   ports:
+  #    - "5000:5000"
+  # redis:
+  #   image: "redis:alpine"
+  mongo:
+    image: "mongo"
     ports:
-     - "5000:5000"
-  redis:
-    image: "redis:alpine"
-  redis:
-    image: "redis:alpine"
+     - "27017:27017"
