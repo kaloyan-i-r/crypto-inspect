@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from bson import json_util
-client = MongoClient()
+client = MongoClient('mongo')
 
 db = client.crypto_data
 

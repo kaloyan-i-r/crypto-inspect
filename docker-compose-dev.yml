@@ -2,21 +2,31 @@ version: '3.2'
 
 
 services:
-  ui:
+  mongo:
+    image: "mongo"
+    ports:
+     - "27017:27017"
+  crypto-view-gather:
+    build: ./gather
+    volumes:
+      - type: volume
+        source: "${DEV_FOLDER}"
+        target: /code
+  crypto-view-api:
+    build: ./api
+    ports:
+     - "5000:5000"
+    volumes:
+      - type: volume
+        source: "${DEV_FOLDER}"
+        target: /code
+  crypto-view-app:
     image: nginx
     ports: 
       - 8080:80
     volumes:
       - type: volume
-        source: "${DEV_FOLDER}/ui"
+        source: "${DEV_FOLDER}/views"
         target: /usr/share/nginx/html
-  # rest:
-  #   build: .
-  #   ports:
-  #    - "5000:5000"
   # redis:
   #   image: "redis:alpine"
-  mongo:
-    image: "mongo"
-    ports:
-     - "27017:27017"
