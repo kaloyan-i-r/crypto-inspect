@@ -31,6 +31,10 @@ services:
     volumes:
       - type: volume
         source: "${DEV_FOLDER}/views"
-        target: /usr/share/nginx/html
+        target: /app
+      - type: volume
+        source: "${DEV_FOLDER}/views/_docker/nginx.conf"
+        target: /etc/nginx/nginx.conf
+        read_only: true
   # redis:
   #   image: "redis:alpine"
