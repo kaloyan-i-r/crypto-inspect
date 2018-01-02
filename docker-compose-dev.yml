@@ -7,13 +7,17 @@ services:
     ports:
      - "27017:27017"
   crypto-view-gather:
-    build: ./gather
+    environment:
+      - PYTHON_APP=./gather/gather.py
+    build: .
     volumes:
       - type: volume
         source: "${DEV_FOLDER}"
         target: /code
   crypto-view-api:
-    build: ./api
+    environment:
+      - PYTHON_APP=./api/app.py
+    build: .
     ports:
      - "5000:5000"
     volumes:
