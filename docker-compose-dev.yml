@@ -27,7 +27,7 @@ services:
   crypto-view-app:
     image: nginx
     ports: 
-      - 8080:80
+      - 8888:80
     volumes:
       - type: volume
         source: "${DEV_FOLDER}/views"
@@ -36,5 +36,7 @@ services:
         source: "${DEV_FOLDER}/views/_docker/nginx.conf"
         target: /etc/nginx/nginx.conf
         read_only: true
-  # redis:
-  #   image: "redis:alpine"
+  redis:
+    image: "redis:alpine"
+    ports: 
+      - 6379:6379
