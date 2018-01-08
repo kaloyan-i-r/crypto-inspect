@@ -27,6 +27,23 @@
 	<table class="table table-striped table-hover">
 		<thead class="thead-light">
 			<tr>
+				<th scope="col">total cap</th>
+				<th scope="col">total volume 24h</th>
+				<th scope="col">bicoin percentage</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{global.total_market_cap_usd}}$</td>
+				<td>{{global.total_24h_volume_usd}}$</td>
+				<td>{{global.bitcoin_percentage_of_market_cap}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table table-striped table-hover">
+		<thead class="thead-light">
+			<tr>
 				<th scope="col">#</th>
 				<th scope="col">name</th>
 				<th scope="col">price</th>
@@ -34,6 +51,8 @@
 				<th scope="col">1h</th>
 				<th scope="col">24h</th>
 				<th scope="col">7d</th>
+				<th scope="col">cap %</th>
+				<th scope="col">volume %</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -45,6 +64,8 @@
 				<td>{{ticker.percent_change_1h}}</td>
 				<td>{{ticker.percent_change_24h}}</td>
 				<td>{{ticker.percent_change_7d}}</td>
+				<td>{{ticker.market_cap_usd/global.total_market_cap_usd*100}}</td>
+				<td>{{ticker["24h_volume_usd"]/global.total_24h_volume_usd*100}}</td>
 			</tr>
 		</tbody>
 	</table>
@@ -59,6 +80,7 @@ export default {
   data () {
     return {
       message: 'Hello from app vue',
+      global: [],
       tickers: [],
       errors: []
     }
@@ -67,6 +89,14 @@ export default {
     axios.get('http://localhost:8888/api/tickers', { crossdomain: true })
     .then(response => {
       this.tickers = response.data
+    })
+    .catch(e => {
+      console.log(e)
+      this.errors = e
+    })
+    axios.get('http://localhost:8888/api/global', { crossdomain: true })
+    .then(response => {
+      this.global = response.data
     })
     .catch(e => {
       console.log(e)
