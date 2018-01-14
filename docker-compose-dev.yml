@@ -1,17 +1,21 @@
 version: '3.2'
 
-
 services:
-  mongo:
-    image: "mongo"
+  rethinkdb:
+    image: "rethinkdb"
     ports:
-     - "27017:27017"
+     - "28015:28015"
+     - "18080:8080"
+    volumes:
+      - type: bind
+        source: "${DEV_FOLDER}/db"
+        target: /data
   crypto-view-gather:
     environment:
       - PYTHON_APP=./gather/gather.py
     build: .
     volumes:
-      - type: volume
+      - type: bind
         source: "${DEV_FOLDER}"
         target: /code
   crypto-view-api:
@@ -21,7 +25,7 @@ services:
     ports:
      - "5000:5000"
     volumes:
-      - type: volume
+      - type: bind
         source: "${DEV_FOLDER}"
         target: /code
   crypto-view-app:
@@ -29,10 +33,10 @@ services:
     ports: 
       - 8888:80
     volumes:
-      - type: volume
+      - type: bind
         source: "${DEV_FOLDER}/views"
         target: /app
-      - type: volume
+      - type: bind
         source: "${DEV_FOLDER}/views/_docker/nginx.conf"
         target: /etc/nginx/nginx.conf
         read_only: true

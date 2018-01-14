@@ -1,24 +1,34 @@
-from pymongo import MongoClient
-from bson import json_util
-client = MongoClient('mongo')
+import rethinkdb as r
+from rethinkdb.errors import RqlRuntimeError, RqlDriverError
 
-db = client.crypto_data
+conn = r.connect( "rethinkdb", 28015).repl()
+try:
+        print(r.db_create('crypto').run(conn))
+except RqlRuntimeError:
+        print('db crypto exists!')
 
+def __create_table__(table):
+        try:
+                print(r.db("crypto").table_create(table).run())
+        except:
+                pass
 def update(collection,filter,data):
-        return db[collection].replace_one(filter, data,True)
+        __create_table__(collection)
+        print(r.db("crypto").table(collection).insert(data).run(conn))
+
 
 def save(collection,data):
+        __create_table__(collection)
         print(f'data class:{data.__class__}')
-        if isinstance(data,list):
-                print('inserting list')
-                db[collection].insert_many(data)
-        else:
-                print('inserting single entry')
-                db[collection].insert_one(data)
+        print(r.db("crypto").table(collection).insert(data).run(conn))
 
 
 def read(collection):
-        return db[collection].find()
+        return r.db("crypto").table(collection).run(conn)
 
 def read_one(collection,id):
-        return db[collection].find_one({"id": id})
+        return r.db("crypto").filter(r.row["id"] == id).run(conn)
+
+
+if __name__ == '__main__':
+        save('test',[{'test':'test'}])
